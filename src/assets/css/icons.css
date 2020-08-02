@@ -1,0 +1,10 @@
+.feather {
+  position: relative;
+  width: 1.25rem;
+  height: 1.25rem;
+  stroke: rgb(134, 140, 144);
+  stroke-width: 1.5;
+  fill: none;
+  top: .25rem;
+  padding: 0 .5rem;
+}
