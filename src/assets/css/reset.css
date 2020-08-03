@@ -10,10 +10,33 @@ button {
   background: none;
 }
 
+input[type=text] {
+  border: none;
+  background: none;
+  outline: none;
+}
+
 input[type=search] {
   -webkit-appearance: none;
   appearance: none;
   background: none;
   border: none;
+  outline: none;
+}
+
+details {
+  cursor: pointer;
+  border: none;
+}
+
+details:focus {
+  outline: none;
+}
+
+textarea {
+  box-sizing: border-box;
+  background: none;
+  border: none;
+  resize: none;
   outline: none;
 }

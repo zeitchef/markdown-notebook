@@ -3,7 +3,10 @@
     <div class="toolbar">
       <h3>{{ selectedNote.title }}</h3>
       <div class="button-group">
-        <ShareIcon class="feather" />
+        <DownloadIcon class="feather" @click="downloadFile" />
+        <StarIcon class="feather"
+                  @click="favoriteNote"
+                  :class="{ fillIcon: this.selectedNote.favorite }"/>
         <EditIcon class="feather" @click="editNote" />
       </div>
     </div>
@@ -12,13 +15,15 @@
 </template>
 
 <script>
-import { EditIcon, ShareIcon } from 'vue-feather-icons'
+import { saveAs } from 'file-saver'
+import { EditIcon, DownloadIcon, StarIcon } from 'vue-feather-icons'
 
 export default {
   name: 'MarkdownPreview',
   components: {
-    ShareIcon,
-    EditIcon
+    EditIcon,
+    DownloadIcon,
+    StarIcon
   },
   props: {
     notePreview: String,
@@ -31,6 +36,15 @@ export default {
   methods: {
     editNote () {
       this.$emit('edit-note')
+    },
+    favoriteNote () {
+      this.selectedNote.favorite = !this.selectedNote.favorite
+    },
+    downloadFile () {
+      const filename = `${this.selectedNote.title.toLowerCase().replace(' ', '-')}.txt`
+      const content = this.selectedNote.content
+      const blob = new Blob([content], { type: 'text/plain;charset=utf-8' })
+      saveAs(blob, filename)
     }
   }
 }
@@ -54,5 +68,9 @@ export default {
 .preview-pane {
   padding: .2rem 1rem;
   flex: 1;
+}
+
+.fillIcon {
+  fill: rgb(134, 140, 144);
 }
 </style>

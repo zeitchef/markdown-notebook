@@ -26,9 +26,8 @@ nav {
   align-items: center;
   height: 3rem;
   padding: 0 1rem;
-  /* border-bottom: 1px solid #efefef; */
-  color: #fff;
-  background-color: var(--color-dark);
+  color: var(--color-dark);
+  background-color: #efefef;
 }
 
 .nav-header2 { display: none; }

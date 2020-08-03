@@ -2,14 +2,26 @@
   <div class="sidebar">
     <div class="sidebar__toolbar" :class="{ centered: !this.notes.length }">
       <h2 v-if="!notes.length">Welcome! Add your first note...</h2>
-      <SearchIcon @click="focusSearch" class="feather" />
+      <SearchIcon v-if="notes.length" @click="focusSearch" class="feather" />
       <FilePlusIcon @click="addNote" class="feather" />
-      <div class="sidebar__search">
+      <div v-if="notes.length" class="sidebar__search">
         <input type="search"
                ref="searchbar"
-               @blur="searching = !searching"
+               placeholder="Search notes..."
                @input="searchNotes($event.target.value)">
       </div>
+    </div>
+    <div v-if="favoriteNotesList.length" class="favorites">
+      <details open>
+        <summary><strong>Favorites</strong></summary>
+        <div class="note"
+           v-for="note in favoriteNotesList"
+           :class="{ selected: note === selectedNote }"
+           @click="selectNote(note)"
+           :key="note.id">
+        {{ note.title }}
+      </div>
+      </details>
     </div>
     <div v-if="!searchResults.length" class="notes">
       <div class="note"
@@ -58,11 +70,16 @@ export default {
     },
     selectNote (note) {
       this.$emit('select-note', note)
+      this.clearSearch()
     },
     focusSearch () {
-      this.searching = !this.searching
+      this.searching = true
       const searchbar = this.$refs.searchbar
       searchbar.focus()
+    },
+    clearSearch () {
+      this.$refs.searchbar.value = ''
+      this.searchResults = []
     },
     searchNotes (term) {
       // search with vue-fuse
@@ -78,13 +95,18 @@ export default {
         })
     }
   },
-  directives: {
-    focus: {
-      inserted (el) {
-        el.focus()
-      }
+  computed: {
+    favoriteNotesList () {
+      return this.notes.filter(note => note.favorite === true)
     }
   }
+  // directives: {
+  //   focus: {
+  //     inserted (el) {
+  //       el.focus()
+  //     }
+  //   }
+  // }
 }
 </script>
 
@@ -122,6 +144,12 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+.favorites {
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #efefef;
 }
 
 .feather {

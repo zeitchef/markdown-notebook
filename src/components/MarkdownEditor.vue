@@ -5,12 +5,10 @@
         <label>
           <input id="note-title" type="text" v-model="selectedNote.title">
         </label>
-        <Trash2Icon class="feather" @click="deleteNote" />
-        <StarIcon class="feather" />
       </div>
       <div class="toolbar__right">
+        <Trash2Icon class="feather" @click="deleteNote" />
         <EyeIcon class="feather" @click="previewNote" />
-        <!-- <button @click="previewNote">Preview</button> -->
       </div>
     </div>
     <textarea class="content" v-model="selectedNote.content"></textarea>
@@ -36,14 +34,13 @@
 </template>
 
 <script>
-import { EyeIcon, StarIcon, Trash2Icon } from 'vue-feather-icons'
 import dayjs from 'dayjs'
+import { EyeIcon, Trash2Icon } from 'vue-feather-icons'
 
 export default {
   name: 'MarkdownEditor',
   components: {
     EyeIcon,
-    StarIcon,
     Trash2Icon
   },
   props: {
@@ -112,26 +109,22 @@ export default {
   border-bottom: 1px solid #efefef;
 }
 
+.toolbar__left {
+  flex: 1;
+}
+
 label {
   border-bottom: 1px solid #ccc;
   margin-right: 1rem;
 }
 
 input#note-title {
-  border: none;
-  background: none;
-  outline: none;
   font-family: inherit;
   font-size: 1rem;
+  width: 60%;
 }
 
 textarea.content {
-  box-sizing: border-box;
-  background: none;
-  border: none;
-  resize: none;
-  outline: none;
-
   flex: 1;
   width: 100%;
   font-family: inherit;
