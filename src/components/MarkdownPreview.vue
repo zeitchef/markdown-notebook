@@ -4,9 +4,11 @@
       <h3>{{ selectedNote.title }}</h3>
       <div class="button-group">
         <DownloadIcon class="feather" @click="downloadFile" />
-        <StarIcon class="feather"
-                  @click="favoriteNote"
-                  :class="{ fillIcon: this.selectedNote.favorite }"/>
+        <StarIcon
+          class="feather"
+          @click="favoriteNote"
+          :class="{ fillIcon: this.selectedNote.favorite }"
+        />
         <EditIcon class="feather" @click="editNote" />
       </div>
     </div>
@@ -30,18 +32,20 @@ export default {
     selectedNote: Object,
     editing: Boolean
   },
-  data () {
+  data() {
     return {}
   },
   methods: {
-    editNote () {
+    editNote() {
       this.$emit('edit-note')
     },
-    favoriteNote () {
+    favoriteNote() {
       this.selectedNote.favorite = !this.selectedNote.favorite
     },
-    downloadFile () {
-      const filename = `${this.selectedNote.title.toLowerCase().replace(' ', '-')}.txt`
+    downloadFile() {
+      const filename = `${this.selectedNote.title
+        .toLowerCase()
+        .replace(' ', '-')}.txt`
       const content = this.selectedNote.content
       const blob = new Blob([content], { type: 'text/plain;charset=utf-8' })
       saveAs(blob, filename)
@@ -66,7 +70,7 @@ export default {
 }
 
 .preview-pane {
-  padding: .2rem 1rem;
+  padding: 0.2rem 1rem;
   flex: 1;
 }
 

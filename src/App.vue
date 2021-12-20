@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <Navbar @unselect-note="unselectNote"/>
+    <Navbar @unselect-note="unselectNote" />
 
     <div class="main">
       <Sidebar
@@ -9,7 +9,8 @@
         :selectedNote="selectedNote"
         :class="{ hidden: isHidden }"
         @add-note="addNote"
-        @select-note="selectNote($event)" />
+        @select-note="selectNote($event)"
+      />
 
       <MarkdownEditor
         v-if="selectedNote"
@@ -18,7 +19,8 @@
         :selectedNote="selectedNote"
         @update-content="updateContent($event)"
         @delete-note="deleteNote($event)"
-        @preview-note="previewNote" />
+        @preview-note="previewNote"
+      />
 
       <MarkdownPreview
         v-if="selectedNote"
@@ -26,7 +28,8 @@
         :selectedNote="selectedNote"
         :notePreview="notePreview"
         :editing="editing"
-        @edit-note="editNote" />
+        @edit-note="editNote"
+      />
     </div>
   </div>
 </template>
@@ -45,21 +48,21 @@ export default {
     Navbar,
     Sidebar,
     MarkdownEditor,
-    MarkdownPreview
+    MarkdownPreview,
   },
-  data () {
+  data() {
     return {
       notes: JSON.parse(localStorage.getItem('notes')) || [],
       selectedNoteId: localStorage.getItem('selected-id') || null,
       adding: true,
-      editing: false
+      editing: false,
     }
   },
   methods: {
-    updateContent (value) {
+    updateContent(value) {
       this.content = value
     },
-    addNote () {
+    addNote() {
       this.editing = true
       const time = Date.now()
       const note = {
@@ -67,53 +70,53 @@ export default {
         title: `Note ${this.notes.length + 1}`,
         content: 'Some sample **Markdown**',
         created: time,
-        favorite: false
+        favorite: false,
       }
       this.notes.push(note)
       this.selectedNoteId = note.id
     },
-    selectNote (note) {
+    selectNote(note) {
       this.selectedNoteId = note.id
     },
-    unselectNote () {
+    unselectNote() {
       this.selectedNoteId = null
     },
-    previewNote () {
+    previewNote() {
       this.editing = false
     },
-    editNote () {
+    editNote() {
       this.editing = true
     },
-    deleteNote () {
+    deleteNote() {
       const index = this.notes.indexOf(this.selectedNote)
       if (index !== -1) {
         this.notes.splice(index, 1)
       }
     },
-    saveNotes () {
+    saveNotes() {
       localStorage.setItem('notes', JSON.stringify(this.notes))
-    }
+    },
   },
   computed: {
-    notePreview () {
+    notePreview() {
       return this.selectedNote ? marked(this.selectedNote.content) : ''
     },
-    selectedNote () {
+    selectedNote() {
       return this.notes.find(note => note.id === this.selectedNoteId)
     },
-    isHidden () {
+    isHidden() {
       return Boolean(this.selectedNote)
-    }
+    },
   },
   watch: {
     notes: {
       handler: 'saveNotes',
-      deep: true
+      deep: true,
     },
-    selectedNoteId (value) {
+    selectedNoteId(value) {
       localStorage.setItem('selected-id', value)
-    }
-  }
+    },
+  },
 }
 </script>
 
